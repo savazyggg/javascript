@@ -5,19 +5,36 @@ const loginButton = loginForm.querySelector("button")
 const greeting = document.querySelector("#greeting")
 
 const HIDDEN_CLASSNAME = "hidden"
+const USERNAME_KEY = 'username'
 
+
+
+
+function paintGreetings(username){
+    greeting.innerText = "Hello " + username
+    greeting.classList.remove(HIDDEN_CLASSNAME)
+
+}
 
 function onLoinSubmit(event){
     event.preventDefault();//form을 submit하면 브라우저는 저절로 브라우저 새로고침을 함 이걸 방지
    const username = inputButton.value;
+   localStorage.setItem(USERNAME_KEY, username)//localstorage에 입련된 유저 이름 user이름으로 등록
    loginForm.classList.add(HIDDEN_CLASSNAME)
-   console.log(username)
    
-   greeting.innerText = "Hello " + username
-   greeting.classList.remove(HIDDEN_CLASSNAME)
+   paintGreetings(username)
 }
 
-loginForm.addEventListener("submit",onLoinSubmit)
+const savedUsername = localStorage.getItem(USERNAME_KEY)
+
+if(savedUsername === null){
+    loginForm.classList.remove(HIDDEN_CLASSNAME)
+    loginForm.addEventListener("submit",onLoinSubmit)
+
+}else{
+    paintGreetings(savedUsername)
+
+}
 /*
 function onLoginSubmit(event){
 event.preventDefault(); // 브라우저가 기본 동작을 실행하지 못하게 막기 // event object는 preventDefault함수를 기본적으로 갖고 있음
